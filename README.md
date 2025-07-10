@@ -2,6 +2,7 @@
 
 **Time Tuner** is a lightweight, plug-and-play module designed to optimize timestep allocation in diffusion models. It helps accelerate sampling while maintaining high generation quality. This implementation is based on the CVPR 2024 paper:  
 **“Towards More Accurate Diffusion Model Acceleration with A Timestep Tuner”**
+This project was designed and built by Harshit Garg.
 
 🔗 [Live Demo](https://time-tuner-psi.vercel.app)
 ---
