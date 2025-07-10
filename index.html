@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Location Time Designer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="navbar">
+        <h1>🕒 TimeTuner</h1>
+    </header>
+
+    <div class="container">
+        <div class="header-section">
+            <h1 class="main-heading">Time Zone Designer</h1>
+            <div id="themeToggler" class="theme-icons-container" role="button" aria-label="Toggle light and dark theme">
+                <span id="sunIcon" class="theme-icon sun-icon" role="img" aria-label="Sun icon">☀️</span>
+                <span id="moonIcon" class="theme-icon moon-icon" role="img" aria-label="Moon icon">🌙</span>
+            </div>
+        </div>
+
+        <div class="view-selector">
+            <button id="showDigital" class="active">Digital Clock</button>
+            <button id="showAnalog">Analog Clock</button>
+        </div>
+
+        <!-- Digital Clock Section -->
+        <div id="digitalClockSection" class="clock-section">
+            <div id="digitalClockDisplay" class="clock-display">
+                <span id="hours">00</span>:<span id="minutes">00</span>:<span id="seconds">00</span> <span id="ampm"></span>
+            </div>
+            <div id="dateDisplay" class="date-display"></div>
+            <div class="controls">
+                <div class="control-group">
+                    <label for="timeZone">Select Time Zone:</label>
+                    <select id="timeZone">
+                        <option value="" selected>Your Local Time</option>
+                        <optgroup label="Standard Zones">
+                            <option value="UTC">UTC</option>
+                            <option value="GMT">GMT</option>
+                        </optgroup>
+                        <optgroup label="North America">
+                            <option value="America/New_York">New York (EST)</option>
+                            <option value="America/Chicago">Chicago (CST)</option>
+                            <option value="America/Denver">Denver (MST)</option>
+                            <option value="America/Los_Angeles">Los Angeles (PST)</option>
+                            <option value="America/Anchorage">Anchorage (AKST)</option>
+                            <option value="America/Honolulu">Honolulu (HST)</option>
+                            <option value="America/Toronto">Toronto, CA</option>
+                            <option value="America/Vancouver">Vancouver, CA</option>
+                            <option value="America/Mexico_City">Mexico City, MX</option>
+                        </optgroup>
+                        <optgroup label="South America">
+                            <option value="America/Sao_Paulo">Sao Paulo, BR</option>
+                            <option value="America/Buenos_Aires">Buenos Aires, AR</option>
+                            <option value="America/Santiago">Santiago, CL</option>
+                            <option value="America/Bogota">Bogota, CO</option>
+                        </optgroup>
+                        <optgroup label="Europe">
+                            <option value="Europe/London">London, UK</option>
+                            <option value="Europe/Paris">Paris, FR</option>
+                            <option value="Europe/Berlin">Berlin, DE</option>
+                            <option value="Europe/Rome">Rome, IT</option>
+                            <option value="Europe/Madrid">Madrid, ES</option>
+                            <option value="Europe/Moscow">Moscow, RU</option>
+                            <option value="Europe/Athens">Athens, GR</option>
+                        </optgroup>
+                        <optgroup label="Africa">
+                            <option value="Africa/Cairo">Cairo, EG</option>
+                            <option value="Africa/Johannesburg">Johannesburg, ZA</option>
+                            <option value="Africa/Lagos">Lagos, NG</option>
+                        </optgroup>
+                        <optgroup label="Asia">
+                            <option value="Asia/Dubai">Dubai, UAE</option>
+                            <option value="Asia/Kolkata">Kolkata (IST), IN</option>
+                            <option value="Asia/Mumbai">Mumbai (IST), IN</option>
+                            <option value="Asia/Shanghai">Shanghai, CN</option>
+                            <option value="Asia/Tokyo">Tokyo, JP</option>
+                            <option value="Asia/Seoul">Seoul, KR</option>
+                            <option value="Asia/Singapore">Singapore, SG</option>
+                            <option value="Asia/Bangkok">Bangkok, TH</option>
+                        </optgroup>
+                        <optgroup label="Australia & Oceania">
+                            <option value="Australia/Sydney">Sydney, AU</option>
+                            <option value="Australia/Melbourne">Melbourne, AU</option>
+                            <option value="Australia/Brisbane">Brisbane, AU</option>
+                            <option value="Australia/Perth">Perth, AU</option>
+                            <option value="Pacific/Auckland">Auckland, NZ</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label for="selectedDigitalDate">Display Date:</label>
+                    <input type="date" id="selectedDigitalDate">
+                </div>
+                <div class="control-group">
+                    <label for="dateFormat">Date Format:</label>
+                    <select id="dateFormat">
+                        <option value="long" selected>Wednesday, July 10, 2025</option>
+                        <option value="short">7/10/2025</option>
+                        <option value="iso">2025-07-10</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label for="themeSelect">Clock Background Theme:</label>
+                    <select id="themeSelect">
+                        <option value="custom">🕰 Custom Color</option>
+                        <option value="classic">⚪ Classic</option>
+                        <option value="sunset">🌇 Sunset</option>
+                        <option value="space">🌌 Space</option>
+                        <option value="aqua">💧 Aqua</option>
+                        <option value="forest">🌲 Forest</option>
+                        <option value="minimal">Minimal (White/Grey)</option>
+                        <option value="neon">🌈 Neon Glow</option>
+                        <option value="midnight">🌙 Midnight</option>
+                        <option value="vintage">📜 Vintage</option>
+                        <option value="gradientBlue">🔷 Gradient Blue</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label for="textColor">Text Color:</label>
+                    <input type="color" id="textColor" value="#FFFFFF">
+                </div>
+                <div class="control-group">
+                    <label for="bgColor">Background Color:</label>
+                    <input type="color" id="bgColor" value="#333333">
+                </div>
+                <div class="control-group">
+                    <label for="fontFamily">Font Family:</label>
+                    <select id="fontFamily">
+                        <option value="Arial, sans-serif">Arial</option>
+                        <option value="'Times New Roman', serif">Times New Roman</option>
+                        <option value="'Courier New', monospace">Courier New</option>
+                        <option value="'Pacifico', cursive">Pacifico (Fallback: Cursive)</option>
+                        <option value="'Roboto', sans-serif">Roboto (Fallback: Sans-serif)</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <input type="checkbox" id="hour12" checked>
+                    <label for="hour12">12-Hour Format</label>
+                </div>
+                <div class="control-group">
+                    <label for="fontSize">Font Size:</label>
+                    <input type="range" id="fontSize" min="30" max="100" value="60">
+                    <span id="fontSizeValue">60px</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analog Clock Section -->
+        <div id="analogClockSection" class="clock-section hidden">
+            <div class="analog-clock">
+                <div class="center"></div>
+                <div class="hand hour" id="analog-hour"></div>
+                <div class="hand minute" id="analog-minute"></div>
+                <div class="hand second" id="analog-second"></div>
+            </div>
+            <div id="analogDateDisplay" class="date-display"></div>
+            <div class="controls">
+                <div class="control-group">
+                    <label for="analogTimeZone">Select Time Zone:</label>
+                    <select id="analogTimeZone">
+                        <option value="" selected>Your Local Time</option>
+                        <!-- Options populated dynamically or mirror digital timeZone -->
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label for="selectedAnalogDate">Display Date:</label>
+                    <input type="date" id="selectedAnalogDate">
+                </div>
+                <div class="control-group">
+                    <label for="analogDateFormat">Date Format:</label>
+                    <select id="analogDateFormat">
+                        <option value="long" selected>Wednesday, July 10, 2025</option>
+                        <option value="short">7/10/2025</option>
+                        <option value="iso">2025-07-10</option>
+                    </select>
+                </div>
+                 <div class="control-group">
+                    <label for="analogFaceColor">Face Color:</label>
+                    <input type="color" id="analogFaceColor" value="#EEEEEE">
+                </div>
+                <div class="control-group">
+                    <label for="analogHandColor">Hand Color:</label>
+                    <input type="color" id="analogHandColor" value="#333333">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>✨ Designed and Built by <a href="https://www.linkedin.com/in/harshit-garg-80b65b251?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" rel="noopener noreferrer">Harshit Garg</a> | © 2025 TimeTuner</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

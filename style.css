@@ -1,0 +1,706 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@400;700&display=swap');
+
+:root {
+    --body-bg: #f0f2f5;
+    --gradient-start: #ffffff; /* Lighter shade for gradient start in light mode */
+    --container-bg: #ffffff;
+    --text-color: #333;
+    --heading-color: #4CAF50;
+    --label-color: #555;
+    --input-border-color: #ddd;
+    --slider-thumb-color: #4CAF50;
+    --analog-clock-size: 180px; /* Default for medium/larger screens */
+    --footer-bg: #f0f0f0;
+    --footer-text: #555;
+    --footer-link: #4CAF50;
+    --clock-display-bg-default: #333333; /* For digital clock when 'custom' theme is selected */
+    --clock-display-text-default: #FFFFFF; /* For digital clock when 'custom' theme is selected */
+
+    --navbar-bg: #222;
+    --navbar-text: white;
+
+    /* Live Gradient colors - Light */
+    --live-gradient-color1-light: #FFDC7E;
+    --live-gradient-color2-light: #FF9944;
+    --live-gradient-color3-light: #FF66CC;
+    --live-gradient-color4-light: #9933FF;
+}
+
+.dark-mode {
+    --body-bg: #282c36;
+    --gradient-start: #3a3f47; /* Lighter shade for gradient start in dark mode */
+    --container-bg: #3c414c;
+    --text-color: #e0e0e0;
+    --heading-color: #66BB6A;
+    --label-color: #bbbbbb;
+    --input-border-color: #555;
+    --slider-thumb-color: #66BB6A;
+    --footer-bg: #1a1a1a;
+    --footer-text: #cccccc;
+    --footer-link: #66BB6A;
+    --clock-display-bg-default: #1a1a1a; /* Darker digital clock bg */
+    --clock-display-text-default: #00e676; /* Brighter digital clock text */
+
+    --navbar-bg: #1a1a1a; /* Darker for dark mode */
+    --navbar-text: #eee;
+
+    /* Live Gradient colors - Dark */
+    --live-gradient-color1-dark: #2F0743;
+    --live-gradient-color2-dark: #41295a;
+    --live-gradient-color3-dark: #401B4B;
+    --live-gradient-color4-dark: #1F1C2C;
+}
+
+/* Common transitions for main theme elements */
+body, .container, h1, .date-display, .controls, .control-group, .control-group label,
+.control-group input, .control-group select, .control-group .slider-thumb-color,
+.analog-clock, .analog-clock .center, .analog-clock .hand {
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, border-color 0.3s ease-in-out;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Aligned content to start below navbar */
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background: radial-gradient(circle at 10% 10%, var(--gradient-start), var(--body-bg)); /* Default body background */
+    background-size: cover;
+    background-attachment: fixed;
+    color: var(--text-color);
+    overflow-x: hidden;
+    /* Initial transition for default background, overridden by keyframes for 'live' theme */
+    transition: background-color 0.3s, color 0.3s, background 0.5s ease-in-out; 
+}
+
+/* Navbar styles */
+.navbar {
+    background-color: var(--navbar-bg);
+    color: var(--navbar-text);
+    padding: 10px 20px;
+    text-align: center;
+    font-size: 22px; 
+    letter-spacing: 1px; 
+    position: fixed; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    box-sizing: border-box; 
+    z-index: 1001; 
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
+}
+
+.navbar h1 {
+    margin: 0; 
+    font-size: 1em; /* Inherit size from navbar */
+    color: inherit; /* Inherit color from navbar */
+}
+
+/* Main container below navbar */
+.container {
+    background-color: var(--container-bg);
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    padding: 40px;
+    text-align: center;
+    width: 90%;
+    max-width: 600px;
+    position: relative;
+    margin-bottom: 70px; 
+    margin-top: 20px; /* Space from navbar */
+}
+
+.header-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+h1.main-heading {
+    color: var(--heading-color);
+    margin-bottom: 10px;
+    font-size: 2.5em;
+}
+
+.theme-icons-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 60px; 
+    height: 60px;
+    cursor: pointer;
+}
+
+.theme-icon {
+    font-size: 3em; 
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+    pointer-events: none;
+}
+
+/* Default (Light Mode) */
+.sun-icon {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.moon-icon {
+    opacity: 0;
+    transform: scale(0.7);
+}
+
+/* Dark Mode */
+.dark-mode .sun-icon {
+    opacity: 0;
+    transform: scale(0.7);
+}
+
+.dark-mode .moon-icon {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.view-selector {
+    margin-bottom: 20px;
+}
+
+.view-selector button {
+    background-color: var(--heading-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    margin: 0 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s, opacity 0.3s, transform 0.2s, box-shadow 0.2s;
+}
+
+.view-selector button:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.view-selector button.active {
+    background-color: #388E3C;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
+    transform: translateY(0);
+}
+
+.clock-section {
+    transition: opacity 0.3s ease-in-out;
+}
+
+.hidden {
+    display: none;
+}
+
+.clock-display {
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    padding: 25px 0;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80px; 
+    font-size: 3em; /* Digital clock base size */
+    border: 2px solid var(--label-color); 
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.2); 
+
+    /* Default custom theme colors - overridden by theme classes */
+    background-color: var(--clock-display-bg-default); 
+    color: var(--clock-display-text-default); 
+}
+
+.clock-display span {
+    min-width: 45px; 
+}
+
+.date-display {
+    font-size: 1.2em;
+    margin-bottom: 30px;
+    color: var(--text-color);
+}
+
+.controls {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    justify-items: center;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    max-width: 250px;
+    background-color: rgba(255, 255, 255, 0.05); 
+    border: 1px solid var(--input-border-color); 
+    padding: 15px; 
+    border-radius: 8px; 
+    margin-bottom: 15px; 
+}
+
+.dark-mode .control-group {
+    background-color: rgba(0, 0, 0, 0.1); 
+}
+
+.control-group:last-child {
+    margin-bottom: 0; 
+}
+
+.control-group label {
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: var(--label-color);
+    font-size: 0.95em;
+}
+
+.control-group input[type="color"],
+.control-group select,
+.control-group input[type="range"],
+.control-group input[type="date"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid var(--input-border-color);
+    border-radius: 6px;
+    font-size: 1em;
+    box-sizing: border-box;
+    background-color: var(--container-bg);
+    color: var(--text-color);
+}
+
+.control-group input[type="color"] {
+    height: 40px;
+    padding: 0;
+    cursor: pointer;
+    background-color: var(--container-bg); 
+    border: 1px solid var(--input-border-color); 
+    padding: 2px; 
+}
+
+.control-group input[type="checkbox"] {
+    margin-right: 8px;
+    width: auto;
+}
+
+.control-group input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 8px;
+    background: var(--input-border-color);
+    outline: none;
+    opacity: 0.7;
+}
+
+.control-group input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--slider-thumb-color);
+    cursor: pointer;
+}
+
+.control-group input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--slider-thumb-color);
+    cursor: pointer;
+}
+
+.control-group #fontSizeValue {
+    align-self: flex-end;
+    margin-top: 5px;
+    font-size: 0.85em;
+    color: var(--label-color);
+}
+
+/* Analog Clock Styles (using --analog-clock-size variable) */
+.analog-clock {
+    width: var(--analog-clock-size);
+    height: var(--analog-clock-size);
+    background-color: var(--container-bg);
+    border-radius: 50%;
+    border: 5px solid var(--label-color);
+    margin: 30px auto;
+    position: relative;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.analog-clock .center {
+    width: calc(var(--analog-clock-size) * 0.04); 
+    height: calc(var(--analog-clock-size) * 0.04);
+    background-color: var(--label-color);
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+}
+
+.analog-clock .hand {
+    --hand-color: var(--label-color);
+    position: absolute;
+    transform-origin: bottom center;
+    border-radius: calc(var(--analog-clock-size) * 0.012); 
+    background-color: var(--hand-color);
+    transition: background-color 0.3s ease-in-out, transform 0.5s ease-in-out; /* Smooth animation for hands */
+}
+
+.analog-clock .hour {
+    width: calc(var(--analog-clock-size) * 0.02); 
+    height: calc(var(--analog-clock-size) * 0.18); 
+    top: calc(50% - var(--analog-clock-size) * 0.18); 
+    left: calc(50% - var(--analog-clock-size) * 0.01); 
+}
+
+.analog-clock .minute {
+    width: calc(var(--analog-clock-size) * 0.012); 
+    height: calc(var(--analog-clock-size) * 0.28); 
+    top: calc(50% - var(--analog-clock-size) * 0.28);
+    left: calc(50% - var(--analog-clock-size) * 0.006);
+}
+
+.analog-clock .second {
+    width: calc(var(--analog-clock-size) * 0.006); 
+    height: calc(var(--analog-clock-size) * 0.3); 
+    top: calc(50% - var(--analog-clock-size) * 0.3);
+    left: calc(50% - var(--analog-clock-size) * 0.003);
+    background-color: #F44336;
+}
+
+/* --- Clock and Body Theme Styles --- */
+/* These classes are applied by JavaScript to the .clock-display, .analog-clock, and <body> elements */
+
+/* Default/Classic Theme (no specific class, relies on root variables) */
+.theme-classic {
+    background-color: #f0f0f0; 
+    color: #333;
+    border-color: #ccc;
+}
+.dark-mode .theme-classic {
+    background-color: #3c414c; 
+    color: #e0e0e0;
+    border-color: #555;
+}
+/* Body for Classic (same as default body values) */
+body.body-theme-classic {
+    background: radial-gradient(circle at 10% 10%, #ffffff, #f0f2f5); 
+}
+.dark-mode.body-theme-classic {
+    background: radial-gradient(circle at 10% 10%, #3a3f47, #282c36); 
+}
+
+.theme-sunset {
+    background: linear-gradient(to right, #ff7e5f, #feb47b);
+    color: #333; 
+    border-color: #e65100;
+}
+.dark-mode .theme-sunset {
+    background: linear-gradient(to right, #4b0082, #800080);
+    color: #eee;
+    border-color: #6a0dad;
+}
+body.body-theme-sunset {
+    background: linear-gradient(135deg, #FFD700, #FF8C00); /* Body specific sunset */
+}
+.dark-mode.body-theme-sunset {
+    background: linear-gradient(135deg, #4B0082, #800080);
+}
+
+.theme-space {
+    background: #0f2027 url('https://raw.githubusercontent.com/Harshit-Garg-2004/Web-Mini-Projects/main/Clock/stars.png') repeat center center; 
+    background-size: 100px;
+    color: #ADD8E6; 
+    border-color: #4B0082;
+}
+.dark-mode .theme-space {
+    background: #000000 url('https://raw.githubusercontent.com/Harshit-Garg-2004/Web-Mini-Projects/main/Clock/stars.png') repeat center center;
+    background-size: 100px;
+    color: #E0FFFF; 
+    border-color: #8A2BE2;
+}
+body.body-theme-space {
+    background: #4169E1 url('https://www.transparenttextures.com/patterns/stardust.png');
+    background-size: cover;
+}
+.dark-mode.body-theme-space {
+    background: #191970 url('https://www.transparenttextures.com/patterns/stardust.png');
+    background-size: cover;
+}
+
+.theme-aqua {
+    background: linear-gradient(to top right, #00c6ff, #0072ff);
+    color: white;
+    border-color: #0072ff;
+}
+.dark-mode .theme-aqua {
+    background: linear-gradient(to top right, #0a1128, #001f54);
+    color: #add8e6;
+    border-color: #001f54;
+}
+body.theme-aqua {
+    background: linear-gradient(to bottom, #74ebd5, #9face6); /* Lighter aqua body */
+}
+.dark-mode.body.theme-aqua {
+    background: linear-gradient(to bottom, #003049, #020420); /* Darker aqua body */
+}
+
+.theme-forest {
+    background: linear-gradient(to top right, #11998e, #38ef7d);
+    color: white;
+    border-color: #008080;
+}
+.dark-mode .theme-forest {
+    background: linear-gradient(to top right, #004d40, #1b5e20);
+    color: #a5d6a7;
+    border-color: #1b5e20;
+}
+body.theme-forest {
+    background: linear-gradient(to bottom, #d4fc79, #96e6a1); /* Lighter forest body */
+}
+.dark-mode.body.theme-forest {
+    background: linear-gradient(to bottom, #0d3b1f, #0c2b18); /* Darker forest body */
+}
+
+.theme-minimal {
+    background-color: white;
+    border: 1px solid #ccc;
+    color: #333;
+}
+.dark-mode .theme-minimal {
+    background-color: #1a1a1a;
+    border: 1px solid #555;
+    color: #eee;
+}
+body.theme-minimal {
+    background-color: #f8f8f8;
+}
+.dark-mode.body.theme-minimal {
+    background-color: #222222;
+}
+
+.theme-neon {
+    background: linear-gradient(to top right, #12c2e9, #c471ed, #f64f59);
+    color: #fff;
+    border-color: #9300ff;
+    text-shadow: 0 0 5px #0ff, 0 0 10px #0ff, 0 0 15px #0ff; /* Neon glow effect */
+}
+.dark-mode .theme-neon {
+    background: linear-gradient(to top right, #0a012a, #5b008d, #8d0000);
+    color: #ffe0ff;
+    border-color: #9d00ff;
+    text-shadow: 0 0 5px #f0f, 0 0 10px #f0f, 0 0 15px #f0f;
+}
+body.theme-neon {
+    background: linear-gradient(135deg, #2D142C, #4E184A, #81206C); /* Darker, vibrant body */
+}
+.dark-mode.body.theme-neon {
+    background: linear-gradient(135deg, #000000, #1a011a, #330033);
+}
+
+.theme-midnight {
+    background: linear-gradient(to bottom, #232526, #414345);
+    color: #fff;
+    border-color: #333;
+}
+.dark-mode .theme-midnight {
+    background: linear-gradient(to bottom, #0f0f0f, #2a2a2a);
+    color: #bdbdbd;
+    border-color: #1f1f1f;
+}
+body.theme-midnight {
+    background: #0f0f0f; /* Solid dark body */
+}
+.dark-mode.body.theme-midnight {
+    background: #000000;
+}
+
+.theme-vintage {
+    background: #ece0c8;
+    font-family: 'Times New Roman', serif; /* Override font for vintage look */
+    color: #5e4b3c;
+    border-color: #a08c7c;
+}
+.dark-mode .theme-vintage {
+    background: #3c3228;
+    color: #d4c1aa;
+    border-color: #5c4e40;
+}
+body.theme-vintage {
+    background: #e9e5d7; /* Lighter vintage body */
+}
+.dark-mode.body.theme-vintage {
+    background: #2b241e;
+}
+
+.theme-gradientBlue {
+    background: linear-gradient(to right, #1e3c72, #2a5298);
+    color: #fff;
+    border-color: #1e3c72;
+}
+.dark-mode .theme-gradientBlue {
+    background: linear-gradient(to right, #0a1835, #112d6a);
+    color: #add8e6;
+    border-color: #0a1835;
+}
+body.theme-gradientBlue {
+    background: linear-gradient(135deg, #4facfe, #00f2fe); /* Lighter blue body */
+}
+.dark-mode.body.theme-gradientBlue {
+    background: linear-gradient(135deg, #051d38, #002244); /* Darker blue body */
+}
+
+/* Live Gradient Background Theme for body */
+.body-theme-live-gradient {
+    background: linear-gradient(45deg,
+        var(--live-gradient-color1-light),
+        var(--live-gradient-color2-light),
+        var(--live-gradient-color3-light),
+        var(--live-gradient-color4-light)
+    );
+    background-size: 400% 400%; /* Make gradient larger than viewport for animation */
+    animation: gradientShift 15s ease infinite; /* Animation duration and loop */
+}
+
+.dark-mode.body-theme-live-gradient {
+    background: linear-gradient(45deg,
+        var(--live-gradient-color1-dark),
+        var(--live-gradient-color2-dark),
+        var(--live-gradient-color3-dark),
+        var(--live-gradient-color4-dark)
+    );
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Footer styles */
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--footer-bg);
+    color: var(--footer-text);
+    padding: 15px 0;
+    font-size: 0.9em;
+    text-align: center;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+    z-index: 1000;
+}
+
+.footer a {
+    color: var(--footer-link);
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 600px) {
+    .navbar {
+        padding: 8px 15px;
+        font-size: 18px;
+    }
+    .navbar h1 {
+        font-size: 1em;
+    }
+    body {
+        padding-top: 50px; /* Adjust padding for smaller navbar */
+    }
+    .container {
+        padding: 20px;
+        margin-bottom: 60px;
+        max-width: 95%; 
+    }
+
+    h1.main-heading {
+        font-size: 2em;
+    }
+
+    .clock-display {
+        font-size: 32px; 
+        min-height: 60px; 
+        padding: 15px 0;
+    }
+
+    .clock-display span {
+        min-width: 35px; 
+    }
+
+    .date-display {
+        font-size: 1em;
+        margin-bottom: 20px; 
+    }
+
+    .controls {
+        grid-template-columns: 1fr; 
+        gap: 15px;
+    }
+    
+    .control-group {
+        padding: 10px; 
+        margin-bottom: 10px;
+    }
+
+    .control-group label {
+        font-size: 0.9em;
+    }
+
+    .control-group input[type="color"],
+    .control-group select,
+    .control-group input[type="range"],
+    .control-group input[type="date"] {
+        font-size: 0.9em;
+        padding: 6px;
+    }
+
+    .theme-icons-container {
+        width: 45px;
+        height: 45px;
+        top: 15px;
+        right: 15px;
+    }
+
+    .theme-icon {
+        font-size: 2.2em;
+    }
+
+    /* Override analog clock size for small screens */
+    :root {
+        --analog-clock-size: 150px; /* Consistent smaller size for mobile */
+    }
+
+    .footer {
+        padding: 12px 0;
+        font-size: 12px; 
+    }
+}
